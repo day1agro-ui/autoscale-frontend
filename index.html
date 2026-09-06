@@ -1,19 +1,38 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AutoScale 2.0</title><meta name="description" content="Сравнение реальных габаритов автомобилей в одном масштабе">
-<link rel="stylesheet" href="assets/css/style.css"></head><body>
-<header><div class="container"><div class="logo">Auto<b>Scale</b> 2.0</div><div class="subtitle">Сравнение реальных габаритов автомобилей в одном масштабе</div></div></header>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>AutoScale 3.0</title>
+<meta name="description" content="Сравнение реальных габаритов автомобилей в одном масштабе">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header><div class="container"><div class="logo">Auto<b>Scale</b> <span>3.0</span></div><div class="subtitle">Сравнение реальных габаритов автомобилей в одном масштабе</div></div></header>
 <main class="container">
-<section class="panel"><div class="top-grid"><div><h1>Сравнить автомобили</h1><p class="lead">Версия 2.0 работает с отдельной базой <b>cars.json</b>. Данные больше не хранятся внутри HTML.</p></div><button class="random" id="randomBtn">🎲 Случайное сравнение</button></div></section>
-<section class="panel"><h2>Автомобили для сравнения</h2><p class="lead">Выберите сторону, затем автомобиль.</p><div class="status" id="status">Загрузка базы автомобилей...</div>
-<input class="search" id="search" placeholder="⌕ Поиск: Vezel, T-Cross, Yaris Cross, Levorg...">
+<section class="panel hero"><div><h1>Сравнить автомобили</h1><p class="lead">Выберите две машины или просто начните вводить название. AutoScale подберёт автомобиль из базы.</p></div><button class="random" id="randomBtn">🎲 Случайное сравнение</button></section>
+<section class="panel">
+<h2>Автомобили для сравнения</h2><p class="lead">Выберите сторону, затем автомобиль. Добавить новые модели можно через <b>data/cars.json</b>.</p>
+<div class="status" id="status">Загрузка базы автомобилей...</div>
+<div class="smart-search-wrap"><input class="search" id="search" autocomplete="off" placeholder="⌕ Умный поиск: Vezel RU1 2015, T-Roc 2020..."><div class="search-results" id="searchResults"></div></div>
 <div class="target-tabs"><button class="tab active" data-target="1">Первый автомобиль</button><button class="tab" data-target="2">Второй автомобиль</button></div>
-<div class="selectors"><div class="field"><label>Марка</label><select id="brand"></select></div><div class="field"><label>Модель</label><select id="model"></select></div><div class="field"><label>Поколение</label><select id="generation"></select></div><div class="field"><label>Комплектация</label><select id="version"></select></div></div>
-<div class="selected-summary" id="selectedSummary"></div><div class="action-row"><button class="compare" id="applyBtn">Добавить в сравнение</button><button class="swap" id="swapBtn">⇄ Поменять местами</button></div></section>
-<section class="panel"><h2>Визуальное сравнение</h2><p class="lead">Пропорции рассчитываются по длине, ширине, высоте и колёсной базе из базы данных.</p><div class="car-grid" id="carCards"></div><div class="panel" style="margin:16px 0 0;padding:16px"><h3>Обе машины в одном масштабе</h3><div class="combined" id="combined"></div><div class="verdict" id="verdict"></div></div></section>
+<div class="selectors">
+<div class="field"><label>Марка</label><select id="brand"></select></div>
+<div class="field"><label>Модель</label><select id="model"></select></div>
+<div class="field"><label>Поколение</label><select id="generation"></select></div>
+<div class="field"><label>Год / версия</label><select id="version"></select></div>
+</div>
+<div class="selected-summary" id="selectedSummary"></div>
+<div class="action-row"><button class="compare" id="applyBtn">Добавить в сравнение</button><button class="swap" id="swapBtn">⇄ Поменять местами</button></div>
+</section>
+<section class="panel"><div class="section-head"><div><h2>Визуальное сравнение</h2><p class="lead">Размеры рассчитываются из реальных длины, ширины, высоты и колёсной базы.</p></div><div class="view-tabs"><button class="view active" data-view="side">Сбоку</button><button class="view" data-view="front">Спереди</button></div></div><div class="car-grid" id="carCards"></div><div class="combined-card"><h3>Обе машины в одном масштабе</h3><div class="combined" id="combined"></div><div class="verdict" id="verdict"></div></div></section>
 <section class="panel"><h2>Разница габаритов</h2><div class="diff-grid" id="diffGrid"></div></section>
 <section class="panel"><h2>Наглядная разница</h2><div id="bars"></div></section>
-<section class="panel"><h2>Полное сравнение характеристик</h2><div style="overflow:auto"><table id="specTable"></table></div></section>
+<section class="panel"><h2>Полное сравнение характеристик</h2><div class="table-wrap"><table id="specTable"></table></div></section>
 <section class="panel"><h2>О выбранных автомобилях</h2><div class="car-grid" id="about"></div></section>
-<section class="panel"><h2>Поделиться сравнением</h2><p class="lead">Выбранная пара сохраняется в ссылке.</p><div class="share-row"><button class="compare" id="copyLink">Скопировать ссылку</button><button class="swap" id="nativeShare">Поделиться</button></div><div id="shareStatus" class="selected-summary"></div></section>
-</main><footer>AutoScale v2.0 · cars.json architecture</footer><script src="assets/js/app.js"></script></body></html>
+<section class="panel"><h2>Поделиться сравнением</h2><p class="lead">Пара автомобилей сохраняется в URL. Получатель ссылки увидит то же сравнение.</p><div class="share-row"><button class="compare" id="copyLink">Скопировать ссылку</button><button class="swap" id="nativeShare">Поделиться</button></div><div id="shareStatus" class="selected-summary"></div></section>
+</main>
+<footer>AutoScale v3.0 · data-driven architecture · реальные размеры задаются базой</footer>
+<script type="module" src="assets/js/app.js"></script>
+</body></html>
