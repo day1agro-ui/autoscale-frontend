@@ -1,124 +1,19 @@
 <!doctype html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoScale v4.2 — API Connected</title>
-<style>
-:root{--bg:#07111f;--bg2:#0b1727;--card:#101d2d;--line:#29445f;--text:#e8eef7;--muted:#aab8ca;--blue:#78a9df;--orange:#ff9b6e}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top right,#163253 0,transparent 28%),linear-gradient(180deg,var(--bg2),var(--bg))}
-button,select,input{font:inherit}.container{width:min(1100px,calc(100% - 24px));margin:auto}
-header{padding:26px 0 18px;border-bottom:1px solid var(--line)}.logo{font-size:28px;font-weight:850;letter-spacing:-.7px}.logo b{color:var(--blue)}.subtitle{margin-top:5px;color:var(--muted);font-size:14px}
-main{padding:18px 0 50px}.panel{background:linear-gradient(145deg,rgba(20,34,50,.98),rgba(11,24,38,.98));border:1px solid var(--line);border-radius:24px;padding:24px;margin-bottom:16px;box-shadow:0 16px 45px rgba(0,0,0,.13)}
-h1,h2,h3,p{margin-top:0}h1{font-size:36px;letter-spacing:-.8px;margin-bottom:8px}h2{font-size:27px;letter-spacing:-.4px;margin-bottom:8px}.lead{color:var(--muted);font-size:18px;line-height:1.55}
-.top-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.random{width:100%;border:1px solid #47709a;background:#1d334b;color:var(--text);border-radius:16px;padding:15px;font-weight:750;cursor:pointer}.random:hover,.compare:hover,.swap:hover{filter:brightness(1.12)}
-.api-status{border:1px solid rgba(74,128,126,.65);background:rgba(15,48,49,.55);color:#c6e0d4;padding:16px;border-radius:18px;line-height:1.5}.api-status.error{border-color:#8a4c4c;background:rgba(70,20,20,.45);color:#ffb6b6}
-.search{width:100%;background:#0b1827;border:1px solid #385976;color:var(--text);border-radius:16px;padding:17px 18px;margin:12px 0 16px;outline:none}.search:focus{border-color:#6f9fd0;box-shadow:0 0 0 3px rgba(120,169,223,.12)}
-.target-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.tab,.swap{border:1px solid #385976;background:#0d1b2a;color:var(--muted);border-radius:14px;padding:13px;cursor:pointer;font-weight:700}.tab.active{background:#213b57;color:white;border-color:#5e91c2}
-.selectors{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.field label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px 3px}.field select{width:100%;background:#0b1827;border:1px solid #385976;color:var(--text);border-radius:13px;padding:14px 12px;min-height:52px}.field select:disabled{opacity:.5}
-.selected-summary{margin-top:14px;padding:15px 17px;background:#0b1827;border:1px solid #29445f;border-radius:16px;color:var(--muted)}.selected-summary strong{color:var(--text)}
-.action-row{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px}.swap{min-width:260px;background:#213b57;color:#fff;border-color:#5485b5}.compare{border:1px solid #6b9bc8;background:linear-gradient(135deg,#315a80,#203b57);color:white;border-radius:15px;padding:14px 22px;font-weight:800;cursor:pointer}.compare:disabled,.swap:disabled,.random:disabled{opacity:.5;cursor:not-allowed}
-.empty{text-align:center;color:var(--muted);padding:25px}.car-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.car-card{background:#0b1827;border:1px solid var(--line);border-radius:20px;overflow:hidden}.car-head{padding:17px 18px}.car-head h3{margin:0 0 7px;font-size:22px}.car-meta{color:var(--muted);line-height:1.5}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--blue);margin-right:7px}.dot.orange{background:var(--orange)}
-.car-visual{height:230px;position:relative;display:flex;align-items:flex-end;justify-content:center;padding:28px 12px 34px;background:linear-gradient(180deg,#8da7bd 0 72%,#647384 72%);overflow:hidden}.car-shape{position:relative;border-radius:28% 32% 13% 13%/70% 75% 24% 24%;background:linear-gradient(180deg,#d5e1ea,#8398aa);border:2px solid #f1f5f8;box-shadow:inset 0 8px 18px rgba(255,255,255,.18)}.car-shape:before{content:"";position:absolute;left:27%;bottom:55%;width:48%;height:32%;background:#293d4f;border-radius:42% 42% 8% 8%;border:2px solid #dce7ee}.car-shape:after{content:"";position:absolute;left:10%;right:10%;bottom:-8px;height:17px;background:radial-gradient(circle at 18% 50%,#14212d 0 7px,#c2d1db 8px 12px,transparent 13px),radial-gradient(circle at 82% 50%,#14212d 0 7px,#c2d1db 8px 12px,transparent 13px)}
-.car-shape.orange-car{background:linear-gradient(180deg,#ffba98,#d66c42);border-color:#ffd2bb}.dims{position:absolute;left:10px;right:10px;bottom:8px;display:flex;justify-content:space-between;font-size:11px;color:white;font-weight:700;text-shadow:0 1px 2px #000}
-.combined{height:190px;border-radius:18px;background:linear-gradient(180deg,#8da7bd 0 70%,#647384 70%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:12px}.mini{position:relative;border-radius:26px 28px 12px 12px;background:#b8c9d6;border:2px solid #e8f1f7}.mini:after{content:"";position:absolute;left:25%;top:-14px;width:48%;height:16px;background:#2b4052;border-radius:18px 18px 0 0}.mini.orange{background:#ff9b6e;border-color:#ffd1bb}.verdict{margin-top:12px;padding:13px 15px;border:1px solid rgba(63,137,99,.7);background:rgba(14,53,43,.6);border-radius:15px;color:#d3e9dc}
-.diff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.diff{background:#0b1827;border:1px solid #29445f;border-radius:16px;padding:15px}.diff span{display:block;color:var(--muted);font-size:13px}.diff b{display:block;font-size:22px;margin:6px 0}.diff small{color:#91b8d9}
-.barline{display:grid;grid-template-columns:130px 1fr 1fr;gap:10px;align-items:center;margin:11px 0}.track{height:10px;background:#07111f;border-radius:99px;overflow:hidden}.bar{height:100%;border-radius:99px;background:var(--blue)}.bar.b{background:var(--orange)}
-table{width:100%;border-collapse:collapse;background:#0b1827;border:1px solid #29445f;border-radius:16px;overflow:hidden}th,td{padding:14px 16px;border-bottom:1px solid #243b52;text-align:left}th{color:var(--muted);font-size:13px;background:#0d1b2a}td:nth-child(2),td:nth-child(3){font-weight:750}tr:last-child td{border-bottom:0}
-footer{text-align:center;color:#6e8194;font-size:13px;padding:20px}
-@media(max-width:800px){h1{font-size:31px}.top-grid,.car-grid{grid-template-columns:1fr}.selectors{grid-template-columns:1fr 1fr}.diff-grid{grid-template-columns:1fr 1fr}.panel{padding:18px;border-radius:20px}.car-visual{height:210px}.barline{grid-template-columns:90px 1fr 1fr;font-size:12px}th,td{padding:11px 8px;font-size:12px}}
-@media(max-width:480px){.selectors{grid-template-columns:1fr}.action-row{flex-direction:column}.swap,.compare{width:100%;min-width:0}.container{width:min(100% - 14px,1100px)}.panel{padding:14px}.car-head h3{font-size:21px}}
-</style>
-</head>
-<body>
-<header><div class="container"><div class="logo">Auto<b>Scale</b></div><div class="subtitle">Сравнение реальных габаритов автомобилей в одном масштабе</div></div></header>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AutoScale 2.0</title><meta name="description" content="Сравнение реальных габаритов автомобилей в одном масштабе">
+<link rel="stylesheet" href="assets/css/style.css"></head><body>
+<header><div class="container"><div class="logo">Auto<b>Scale</b> 2.0</div><div class="subtitle">Сравнение реальных габаритов автомобилей в одном масштабе</div></div></header>
 <main class="container">
-<section class="panel"><div class="top-grid"><div><h1>Сравнить автомобили</h1><p class="lead">Данные автомобилей загружаются напрямую из AutoScale AI Engine.</p></div><div><button class="random" id="randomBtn" disabled>🎲 Случайное сравнение</button></div></div></section>
-<section class="panel">
-<h2>Автомобили для сравнения</h2><p class="lead">Выберите сторону, затем автомобиль. После применения обновляются все блоки сравнения.</p>
-<div class="api-status" id="apiStatus">⏳ Подключаемся к AutoScale AI Engine...</div>
-<input class="search" id="search" placeholder="⌕ Поиск: Vezel, T-Cross, T-Roc, Levorg..." disabled>
+<section class="panel"><div class="top-grid"><div><h1>Сравнить автомобили</h1><p class="lead">Версия 2.0 работает с отдельной базой <b>cars.json</b>. Данные больше не хранятся внутри HTML.</p></div><button class="random" id="randomBtn">🎲 Случайное сравнение</button></div></section>
+<section class="panel"><h2>Автомобили для сравнения</h2><p class="lead">Выберите сторону, затем автомобиль.</p><div class="status" id="status">Загрузка базы автомобилей...</div>
+<input class="search" id="search" placeholder="⌕ Поиск: Vezel, T-Cross, Yaris Cross, Levorg...">
 <div class="target-tabs"><button class="tab active" data-target="1">Первый автомобиль</button><button class="tab" data-target="2">Второй автомобиль</button></div>
-<div class="selectors">
-<div class="field"><label>Марка</label><select id="brand" disabled></select></div>
-<div class="field"><label>Модель</label><select id="model" disabled></select></div>
-<div class="field"><label>Поколение</label><select id="generation" disabled></select></div>
-<div class="field"><label>Комплектация</label><select id="version" disabled></select></div>
-</div>
-<div class="selected-summary" id="selectedSummary">Загрузка автомобилей...</div>
-<div class="action-row"><button class="compare" id="applyBtn" disabled>Добавить в сравнение</button><button class="swap" id="swapBtn" disabled>⇄ Поменять местами</button></div>
-</section>
-<section class="panel"><h2>Визуальное сравнение</h2><p class="lead">Реальные пропорции рассчитываются по заводским размерам из базы.</p><div class="car-grid" id="carCards"></div><div class="panel" style="margin-top:16px;margin-bottom:0;padding:16px"><h3 style="font-size:21px">Обе машины в одном масштабе</h3><div class="combined" id="combined"></div><div class="verdict" id="verdict">Выберите два автомобиля.</div></div></section>
+<div class="selectors"><div class="field"><label>Марка</label><select id="brand"></select></div><div class="field"><label>Модель</label><select id="model"></select></div><div class="field"><label>Поколение</label><select id="generation"></select></div><div class="field"><label>Комплектация</label><select id="version"></select></div></div>
+<div class="selected-summary" id="selectedSummary"></div><div class="action-row"><button class="compare" id="applyBtn">Добавить в сравнение</button><button class="swap" id="swapBtn">⇄ Поменять местами</button></div></section>
+<section class="panel"><h2>Визуальное сравнение</h2><p class="lead">Пропорции рассчитываются по длине, ширине, высоте и колёсной базе из базы данных.</p><div class="car-grid" id="carCards"></div><div class="panel" style="margin:16px 0 0;padding:16px"><h3>Обе машины в одном масштабе</h3><div class="combined" id="combined"></div><div class="verdict" id="verdict"></div></div></section>
 <section class="panel"><h2>Разница габаритов</h2><div class="diff-grid" id="diffGrid"></div></section>
 <section class="panel"><h2>Наглядная разница</h2><div id="bars"></div></section>
 <section class="panel"><h2>Полное сравнение характеристик</h2><div style="overflow:auto"><table id="specTable"></table></div></section>
 <section class="panel"><h2>О выбранных автомобилях</h2><div class="car-grid" id="about"></div></section>
-</main>
-<footer>AutoScale v4.2 · подключено к AutoScale AI Engine</footer>
-
-<script>
-(() => {
-const API_BASE='https://autoscale-mvp.onrender.com';
-const API_CARS=`${API_BASE}/cars`;
-const $=id=>document.getElementById(id);
-const labels={length:'Длина',width:'Ширина',height:'Высота',wheelbase:'Колёсная база'};
-const state={target:1,cars:[],selections:{1:null,2:null}};
-
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function setEnabled(v){['search','brand','model','generation','version','applyBtn','swapBtn','randomBtn'].forEach(id=>$(id).disabled=!v)}
-function unique(a){return [...new Set(a.filter(v=>v!==undefined&&v!==null&&v!==''))]}
-function option(v,t){return `<option value="${escapeHtml(v)}">${escapeHtml(t)}</option>`}
-function normalize(raw,index){return {id:String(raw.id??`api-car-${index}`),brand:raw.make||raw.brand||'Неизвестно',model:raw.model||'Неизвестно',generation:raw.generation||'—',year:raw.year||'',years:raw.year?String(raw.year):'—',name:raw.version||raw.trim||'Базовая версия',length:Number(raw.length)||0,width:Number(raw.width)||0,height:Number(raw.height)||0,wheelbase:Number(raw.wheelbase)||0,body:raw.body||raw.bodyType||'—',drive:raw.drive||'—'}}
-async function loadCars(){
- try{
-  const res=await fetch(API_CARS,{headers:{Accept:'application/json'}});
-  if(!res.ok)throw new Error(`HTTP ${res.status}`);
-  const data=await res.json();
-  const list=Array.isArray(data)?data:(data.cars||data.items||[]);
-  state.cars=list.map(normalize).filter(c=>c.length&&c.width&&c.height);
-  if(!state.cars.length)throw new Error('Сервер вернул пустую базу');
-  state.selections[1]=state.cars[0]; state.selections[2]=state.cars[1]||state.cars[0];
-  $('apiStatus').innerHTML=`✓ AutoScale AI Engine подключён · загружено автомобилей: <strong>${state.cars.length}</strong>`;
-  setEnabled(true);loadBrands();syncControls(state.selections[1]);render();
- }catch(err){
-  $('apiStatus').classList.add('error');
-  $('apiStatus').innerHTML=`✕ Не удалось подключиться к AutoScale AI Engine: ${escapeHtml(err.message)}`;
-  $('selectedSummary').textContent='Автомобили пока не загружены.';
- }
-}
-const currentBrand=()=>$('brand').value,currentModel=()=>$('model').value,currentGeneration=()=>$('generation').value;
-function loadBrands(){const a=unique(state.cars.map(c=>c.brand)).sort();$('brand').innerHTML=a.map(v=>option(v,v)).join('');loadModels()}
-function loadModels(){const a=unique(state.cars.filter(c=>c.brand===currentBrand()).map(c=>c.model)).sort();$('model').innerHTML=a.map(v=>option(v,v)).join('');loadGenerations()}
-function loadGenerations(){const a=unique(state.cars.filter(c=>c.brand===currentBrand()&&c.model===currentModel()).map(c=>c.generation));$('generation').innerHTML=a.map(v=>option(v,v)).join('');loadVersions()}
-function filteredCars(){return state.cars.filter(c=>c.brand===currentBrand()&&c.model===currentModel()&&c.generation===currentGeneration())}
-function loadVersions(){const a=filteredCars();$('version').innerHTML=a.map(c=>option(c.id,`${c.name}${c.year?' · '+c.year:''}`)).join('');updateSummary()}
-function selectedFromControls(){return state.cars.find(c=>c.id===$('version').value)||null}
-function updateSummary(){const c=selectedFromControls();const n=state.target===1?'Первый автомобиль':'Второй автомобиль';$('selectedSummary').innerHTML=c?`<strong>${n}:</strong> ${escapeHtml(c.brand)} ${escapeHtml(c.model)} · ${escapeHtml(c.generation)} · ${escapeHtml(c.years)}`:'Выберите автомобиль.'}
-function syncControls(c){if(!c)return;$('brand').value=c.brand;loadModels();$('model').value=c.model;loadGenerations();$('generation').value=c.generation;loadVersions();$('version').value=c.id;updateSummary()}
-function setTarget(n){state.target=n;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',Number(t.dataset.target)===n));syncControls(state.selections[n])}
-function applySelection(){const c=selectedFromControls();if(!c)return;state.selections[state.target]=c;render();updateSummary()}
-function searchCars(q){q=q.trim().toLowerCase();if(!q)return;const f=state.cars.find(c=>[c.brand,c.model,c.generation,c.name,c.year].join(' ').toLowerCase().includes(q));if(f){syncControls(f);state.selections[state.target]=f;render()}}
-function carCard(c,n){const orange=n===2?' orange-car':'';return `<article class="car-card"><div class="car-head"><h3><span class="dot ${n===2?'orange':''}"></span>${escapeHtml(c.brand)} ${escapeHtml(c.model)}</h3><div class="car-meta">${escapeHtml(c.generation)} · ${escapeHtml(c.years)}<br>${escapeHtml(c.name)}</div></div><div class="car-visual"><div class="car-shape${orange}" style="${shapeStyle(c)}"></div><div class="dims"><span>${c.height} мм</span><span>${c.wheelbase} мм</span><span>${c.length} мм</span></div></div></article>`}
-function shapeStyle(c){const maxL=Math.max(...state.cars.map(x=>x.length));const maxH=Math.max(...state.cars.map(x=>x.height));return `width:${Math.max(48,Math.min(88,c.length/maxL*82))}%;height:${Math.max(60,Math.min(108,c.height/maxH*100))}px`}
-function aboutCard(c){return `<div class="car-card"><div class="car-head"><h3>${escapeHtml(c.brand)} ${escapeHtml(c.model)}</h3><div class="car-meta">Поколение: ${escapeHtml(c.generation)}<br>Год: ${escapeHtml(c.years)}<br>Версия: ${escapeHtml(c.name)}<br>Размеры: ${c.length} × ${c.width} × ${c.height} мм<br>Колёсная база: ${c.wheelbase} мм</div></div></div>`}
-function render(){
- const a=state.selections[1],b=state.selections[2];
- $('carCards').innerHTML=(a?carCard(a,1):'')+(b?carCard(b,2):'');
- $('about').innerHTML=(a?aboutCard(a):'')+(b?aboutCard(b):'');
- if(!(a&&b))return;
- const keys=['length','width','height','wheelbase'];
- $('diffGrid').innerHTML=keys.map(k=>{const d=Math.abs(a[k]-b[k]),w=a[k]===b[k]?'Одинаково':(a[k]>b[k]?`${a.brand} ${a.model}`:`${b.brand} ${b.model}`);return `<div class="diff"><span>${labels[k]}</span><b>${d} мм</b><small>${w==='Одинаково'?w:`Больше: ${escapeHtml(w)}`}</small></div>`}).join('');
- $('bars').innerHTML=keys.map(k=>{const m=Math.max(a[k],b[k]);return `<div class="barline"><b>${labels[k]}</b><div><div class="track"><div class="bar" style="width:${a[k]/m*100}%"></div></div><small>${a[k]} мм</small></div><div><div class="track"><div class="bar b" style="width:${b[k]/m*100}%"></div></div><small>${b[k]} мм</small></div></div>`}).join('');
- $('specTable').innerHTML=`<thead><tr><th>Характеристика</th><th>${escapeHtml(a.brand)} ${escapeHtml(a.model)}</th><th>${escapeHtml(b.brand)} ${escapeHtml(b.model)}</th></tr></thead><tbody>${keys.map(k=>`<tr><td>${labels[k]}</td><td>${a[k]} мм</td><td>${b[k]} мм</td></tr>`).join('')}<tr><td>Год</td><td>${a.years}</td><td>${b.years}</td></tr><tr><td>Поколение</td><td>${escapeHtml(a.generation)}</td><td>${escapeHtml(b.generation)}</td></tr></tbody>`;
- const maxL=Math.max(a.length,b.length),maxH=Math.max(a.height,b.height);
- $('combined').innerHTML=`<div class="mini" style="width:${Math.max(28,a.length/maxL*44)}%;height:${Math.max(48,a.height/maxH*82)}px"></div><div class="mini orange" style="width:${Math.max(28,b.length/maxL*44)}%;height:${Math.max(48,b.height/maxH*82)}px"></div>`;
- const longer=a.length===b.length?'автомобили одинаковой длины':(a.length>b.length?`${a.brand} ${a.model} длиннее`:`${b.brand} ${b.model} длиннее`);
- const higher=a.height===b.height?'одинаковые по высоте':(a.height>b.height?`${a.brand} ${a.model} выше`:`${b.brand} ${b.model} выше`);
- $('verdict').textContent=`✓ ${longer}, а по высоте ${higher}.`;
-}
-function randomCompare(){if(state.cars.length<2)return;let i=Math.floor(Math.random()*state.cars.length),j=Math.floor(Math.random()*state.cars.length);while(j===i)j=Math.floor(Math.random()*state.cars.length);state.selections[1]=state.cars[i];state.selections[2]=state.cars[j];setTarget(1);render()}
-$('brand').addEventListener('change',loadModels);$('model').addEventListener('change',loadGenerations);$('generation').addEventListener('change',loadVersions);$('version').addEventListener('change',updateSummary);$('applyBtn').addEventListener('click',applySelection);$('randomBtn').addEventListener('click',randomCompare);$('swapBtn').addEventListener('click',()=>{const t=state.selections[1];state.selections[1]=state.selections[2];state.selections[2]=t;syncControls(state.selections[state.target]);render()});document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setTarget(Number(t.dataset.target))));let timer;$('search').addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>searchCars(e.target.value),250)});loadCars();
-})();
-</script>
-</body>
-</html>
+<section class="panel"><h2>Поделиться сравнением</h2><p class="lead">Выбранная пара сохраняется в ссылке.</p><div class="share-row"><button class="compare" id="copyLink">Скопировать ссылку</button><button class="swap" id="nativeShare">Поделиться</button></div><div id="shareStatus" class="selected-summary"></div></section>
+</main><footer>AutoScale v2.0 · cars.json architecture</footer><script src="assets/js/app.js"></script></body></html>
