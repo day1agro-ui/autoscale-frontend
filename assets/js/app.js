@@ -96,20 +96,38 @@ function renderVisual(){
   };
 
   if(state.layout==='queue'){
-    const queueSlot=c=>{
-      const w=(44*c.dimensions[primary]/maxPrimary).toFixed(2);
-      const h=(72*c.dimensions[secondary]/maxSecondary).toFixed(2);
-      const wheelbase = state.view==='side' ? `<small>База: ${c.dimensions.wheelbase} мм</small>` : '';
-      return `<div class="queue-car" style="width:${w}%">
-        <div class="caption">${c.brand} ${c.model}</div>
-        <div class="queue-image-box" style="height:${h}%">
-          <img class="car-image" src="${visualPath(c,state.view)}" alt="${c.brand} ${c.model}"
+    const queueSlot=(c,index)=>{
+      const primaryRatio=(c.dimensions[primary]/maxPrimary);
+      const secondaryRatio=(c.dimensions[secondary]/maxSecondary);
+      const wheelbase = state.view==='side'
+        ? `<small>Колёсная база: ${c.dimensions.wheelbase} мм</small>` : '';
+      return `<article class="queue-car queue-car-${index}">
+        <div class="queue-caption">${c.brand} ${c.model}</div>
+        <div class="queue-image-box" style="--primary-ratio:${primaryRatio.toFixed(4)};--secondary-ratio:${secondaryRatio.toFixed(4)}">
+          <img class="car-image"
+               src="${visualPath(c,state.view)}"
+               alt="${c.brand} ${c.model}"
                onerror="this.onerror=null;this.src='assets/silhouettes/fallback/${state.view}.svg'">
         </div>
-        <div class="queue-dimension">${cfg.primaryLabel}: ${c.dimensions[primary]} мм · ${cfg.secondaryLabel}: ${c.dimensions[secondary]} мм ${wheelbase}</div>
-      </div>`;
+        <div class="queue-dimension">
+          <strong>${cfg.primaryLabel}: ${c.dimensions[primary]} мм</strong>
+          <span>${cfg.secondaryLabel}: ${c.dimensions[secondary]} мм</span>
+          ${wheelbase}
+        </div>
+      </article>`;
     };
-    stage.innerHTML=`<div class="queue-scene"><div class="queue-road">${queueSlot(a)}<div class="queue-gap" aria-hidden="true">→</div>${queueSlot(b)}</div></div>`;
+
+    stage.innerHTML=`
+      <div class="queue-scene">
+        <div class="queue-road">
+          ${queueSlot(a,'a')}
+          <div class="queue-gap" aria-hidden="true">
+            <span>→</span>
+            <small>сравнение</small>
+          </div>
+          ${queueSlot(b,'b')}
+        </div>
+      </div>`;
   }else{
     stage.innerHTML=slot(a)+slot(b);
   }
