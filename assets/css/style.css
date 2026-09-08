@@ -188,47 +188,15 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 6px;
 }
 
 
-/* =========================================================
-   AutoScale 4.3.1 SAFE GRID PATCH
-   Только визуальный слой. Не влияет на JS, размеры и layout.
-   Сетка: 10 колонок × 6 строк = 5000 × 3000 мм
-   ========================================================= */
-
-.stage {
-  isolation: isolate;
+/* AutoScale 5.0 AI Image Engine — safe additions */
+.ai-image-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 9px;border-radius:999px;
+  font-size:11px;font-weight:700;
+  background:rgba(20,38,55,.78);
+  border:1px solid rgba(120,155,185,.35);
 }
-
-.stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background-image:
-    linear-gradient(to right, rgba(25, 48, 68, .24) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(25, 48, 68, .24) 1px, transparent 1px);
-  background-size: 10% 16.6666667%;
-  background-position: 0 0;
-}
-
-/* Машины и существующий контент остаются выше сетки */
-.stage > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* Для абсолютных элементов возвращаем их исходное позиционирование */
-.stage .car-slot,
-.stage .queue-scene,
-.stage .scene-car,
-.stage img,
-.stage svg {
-  z-index: 3;
-}
-
-/* Сетка не меняет размеры сцены и не добавляет прокрутку */
-@media (max-width: 600px) {
-  .stage::before {
-    background-size: 10% 16.6666667%;
-  }
+.ai-image-status::before{
+  content:"AI";font-size:9px;padding:2px 4px;border-radius:4px;
+  background:rgba(116,159,195,.25);
 }
