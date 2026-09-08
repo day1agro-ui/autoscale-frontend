@@ -43,6 +43,11 @@ function fillSelects(){
 }
 
 function visualPath(c,view){
+  const library=window.AutoScaleVisualLibrary;
+  if(library){
+    const resolved=library.resolve(c,view);
+    if(resolved?.url) return resolved.url;
+  }
   const engine=window.AutoScaleAIImageEngine;
   if(engine){
     const resolved=engine.resolveImage(c,view);
@@ -175,6 +180,9 @@ document.addEventListener('click',e=>{
 });
 
 window.addEventListener('autoscale:image-registry-ready',()=>{
+  if(state.a&&state.b) renderVisual();
+});
+window.addEventListener('autoscale:visual-library-ready',()=>{
   if(state.a&&state.b) renderVisual();
 });
 loadCars();
