@@ -1,6 +1,6 @@
 const EMBEDDED_CARS = [
- {id:'honda-vezel-ru1-2015',brand:'Honda',model:'Vezel',generation:'RU1',year:2015,market:'Japan',body:'SUV',trim:'X',period:'2013–2021',dimensions:{length:4295,width:1770,height:1605,wheelbase:2610},visual:{silhouette:'honda/vezel-ru1',images:{side:'assets/vehicles/honda/vezel-ru1-2015/side.png',front:'assets/vehicles/honda/vezel-ru1-2015/front.png'}}},
- {id:'volkswagen-t-cross-1gen-2021',brand:'Volkswagen',model:'T-Cross',generation:'1st Generation',year:2021,market:'Japan',body:'SUV',trim:'Base',period:'2019–2024',dimensions:{length:4110,width:1760,height:1584,wheelbase:2551},visual:{silhouette:'volkswagen/t-cross-1gen',images:{side:'assets/vehicles/volkswagen/t-cross-1gen-2021/side.png',front:'assets/vehicles/volkswagen/t-cross-1gen-2021/front.png'}}},
+ {id:'honda-vezel-ru1-2015',brand:'Honda',model:'Vezel',generation:'RU1',year:2015,market:'Japan',body:'SUV',trim:'X',period:'2013–2021',dimensions:{length:4295,width:1770,height:1605,wheelbase:2610},visual:{silhouette:'honda/vezel-ru1'}},
+ {id:'volkswagen-t-cross-1gen-2021',brand:'Volkswagen',model:'T-Cross',generation:'1st Generation',year:2021,market:'Japan',body:'SUV',trim:'Base',period:'2019–2024',dimensions:{length:4110,width:1760,height:1584,wheelbase:2551},visual:{silhouette:'volkswagen/t-cross-1gen'}},
  {id:'volkswagen-t-roc-a1-2020',brand:'Volkswagen',model:'T-Roc',generation:'A1',year:2020,market:'Japan',body:'SUV',trim:'Base',period:'2017–2021',dimensions:{length:4234,width:1819,height:1573,wheelbase:2603},visual:{silhouette:'fallback'}},
  {id:'subaru-levorg-vm-2016',brand:'Subaru',model:'Levorg',generation:'VM',year:2016,market:'Japan',body:'Wagon',trim:'1.6 GT-S',period:'2014–2020',dimensions:{length:4690,width:1780,height:1490,wheelbase:2650},visual:{silhouette:'fallback'}}
 ];
@@ -43,7 +43,11 @@ function fillSelects(){
 }
 
 function visualPath(c,view){
-  if(c.visual?.images?.[view]) return c.visual.images[view];
+  const engine=window.AutoScaleAIImageEngine;
+  if(engine){
+    const resolved=engine.resolveImage(c,view);
+    if(resolved?.url) return resolved.url;
+  }
   const silhouette=c.visual?.silhouette||'fallback';
   const base=silhouette==='fallback'?'assets/silhouettes/fallback':`assets/silhouettes/${silhouette}`;
   return `${base}/${view}.svg`;
@@ -170,4 +174,7 @@ document.addEventListener('click',e=>{
   if(e.target.id==='share'&&navigator.share){navigator.share({title:'AutoScale comparison',url:location.href});}
 });
 
+window.addEventListener('autoscale:image-registry-ready',()=>{
+  if(state.a&&state.b) renderVisual();
+});
 loadCars();
