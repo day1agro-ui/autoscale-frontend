@@ -1,5 +1,5 @@
 {
-  "version": "4.2.1",
+  "version": "4.3.0",
   "cars": [
     {
       "id": "honda-vezel-ru1-2015",
@@ -21,14 +21,12 @@
         "silhouette": "honda/vezel-ru1",
         "availableViews": [
           "side",
-          "front",
-          "top"
+          "front"
         ],
         "type": "ai-raster",
         "images": {
           "side": "assets/vehicles/honda/vezel-ru1-2015/side.png",
-          "front": "assets/vehicles/honda/vezel-ru1-2015/front.png",
-          "top": "assets/vehicles/honda/vezel-ru1-2015/top.png"
+          "front": "assets/vehicles/honda/vezel-ru1-2015/front.png"
         }
       }
     },
@@ -52,14 +50,12 @@
         "silhouette": "volkswagen/t-cross-1gen",
         "availableViews": [
           "side",
-          "front",
-          "top"
+          "front"
         ],
         "type": "ai-raster",
         "images": {
           "side": "assets/vehicles/volkswagen/t-cross-1gen-2021/side.png",
-          "front": "assets/vehicles/volkswagen/t-cross-1gen-2021/front.png",
-          "top": "assets/vehicles/volkswagen/t-cross-1gen-2021/top.png"
+          "front": "assets/vehicles/volkswagen/t-cross-1gen-2021/front.png"
         }
       }
     },
@@ -83,8 +79,7 @@
         "silhouette": "fallback",
         "availableViews": [
           "side",
-          "front",
-          "top"
+          "front"
         ],
         "type": "fallback"
       }
@@ -109,8 +104,7 @@
         "silhouette": "fallback",
         "availableViews": [
           "side",
-          "front",
-          "top"
+          "front"
         ],
         "type": "fallback"
       }
