@@ -48,32 +48,73 @@ function visualPath(c,view){
   const base=silhouette==='fallback'?'assets/silhouettes/fallback':`assets/silhouettes/${silhouette}`;
   return `${base}/${view}.svg`;
 }
+const VIEW_CONFIG = {
+  side:  { primary:'length', secondary:'height', primaryLabel:'Длина', secondaryLabel:'Высота', statusWord:'длиннее' },
+  front: { primary:'width',  secondary:'height', primaryLabel:'Ширина', secondaryLabel:'Высота', statusWord:'шире' },
+  top:   { primary:'length', secondary:'width',  primaryLabel:'Длина', secondaryLabel:'Ширина', statusWord:'длиннее' }
+};
+
 function viewDimensions(view){
-  if(view==='side') return ['length','height'];
-  if(view==='front') return ['width','height'];
-  return ['length','width'];
+  const cfg = VIEW_CONFIG[view] || VIEW_CONFIG.side;
+  return [cfg.primary, cfg.secondary];
 }
 function scalePct(value,max,limit){ return Math.max(12,Math.min(limit,value/max*limit)); }
 
 function renderVisual(){
   const a=state.a,b=state.b;
   if(!a||!b) return;
-  const [primary,secondary]=viewDimensions(state.view);
+
+  const cfg = VIEW_CONFIG[state.view] || VIEW_CONFIG.side;
+  const primary = cfg.primary;
+  const secondary = cfg.secondary;
+
   const maxPrimary=Math.max(a.dimensions[primary],b.dimensions[primary]);
   const maxSecondary=Math.max(a.dimensions[secondary],b.dimensions[secondary]);
+
   const stage=$('#stage');
   stage.className='stage '+(state.layout==='overlay'?'overlay':'');
+  stage.dataset.view = state.view;
+
   const slot=c=>{
     const w=scalePct(c.dimensions[primary],maxPrimary,92);
     const h=scalePct(c.dimensions[secondary],maxSecondary,78);
-    const measure=state.view==='side'?c.dimensions.length:state.view==='front'?c.dimensions.width:c.dimensions.length;
-    return `<div class="car-slot"><div class="caption">${c.brand} ${c.model}</div><div class="car-scale-box" style="width:${w}%;height:${h}%"><img class="car-image" src="${visualPath(c,state.view)}" alt="${c.brand} ${c.model}" onerror="this.onerror=null;this.src='assets/silhouettes/fallback/${state.view}.svg'"></div><div class="dimension">${measure} мм</div></div>`;
+
+    return `<div class="car-slot">
+      <div class="caption">${c.brand} ${c.model}</div>
+      <div class="car-scale-box" style="width:${w}%;height:${h}%">
+        <img class="car-image"
+             src="${visualPath(c,state.view)}"
+             alt="${c.brand} ${c.model}"
+             onerror="this.onerror=null;this.src='assets/silhouettes/fallback/${state.view}.svg'">
+      </div>
+      <div class="dimension">
+        <span>${cfg.primaryLabel}: ${c.dimensions[primary]} мм</span>
+        <span>${cfg.secondaryLabel}: ${c.dimensions[secondary]} мм</span>
+      </div>
+    </div>`;
   };
+
   stage.innerHTML=slot(a)+slot(b);
-  const diff=a.dimensions.length-b.dimensions.length;
-  const abs=Math.abs(diff);
+
+  const diffPrimary=a.dimensions[primary]-b.dimensions[primary];
+  const absPrimary=Math.abs(diffPrimary);
+  const winnerPrimary=diffPrimary>0 ? a : diffPrimary<0 ? b : null;
+
+  const diffSecondary=a.dimensions[secondary]-b.dimensions[secondary];
+  const absSecondary=Math.abs(diffSecondary);
+
   const status=$('#visualStatus');
-  if(status) status.textContent=diff===0?'✓ Автомобили одинаковой длины.':`✓ ${diff>0?a.brand+' '+a.model:b.brand+' '+b.model} длиннее на ${abs} мм (${(abs/Math.min(a.dimensions.length,b.dimensions.length)*100).toFixed(1)}%).`;
+  if(status){
+    const primaryText = diffPrimary===0
+      ? `${cfg.primaryLabel.toLowerCase()} автомобилей одинаковая`
+      : `${winnerPrimary.brand} ${winnerPrimary.model} ${cfg.statusWord} на ${absPrimary} мм (${(absPrimary/Math.min(a.dimensions[primary],b.dimensions[primary])*100).toFixed(1)}%)`;
+
+    const secondaryText = diffSecondary===0
+      ? `${cfg.secondaryLabel.toLowerCase()} одинаковая`
+      : `разница по параметру «${cfg.secondaryLabel}» — ${absSecondary} мм`;
+
+    status.innerHTML = `✓ ${primaryText}.<br><small>${secondaryText}.</small>`;
+  }
 }
 
 function renderMetrics(){
