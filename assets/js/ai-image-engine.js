@@ -69,3 +69,18 @@
 
   loadRegistry();
 })();
+/* AutoScale 5.1 Image Pipeline */
+(function(){
+ const ext=window.AutoScaleAIImageEngine;
+ window.AutoScaleImagePipeline={
+   getVehicleId: ext ? ext.getVehicleId : (c=>""),
+   resolve: ext ? ext.resolveImage : (c,v=>null),
+   expectedPath:(id,view)=>`assets/generated/${view}/${id}.webp`,
+   standard:(view)=>({
+     background:"transparent", perspective:"orthographic",
+     complete_vehicle:true, centered:true,
+     camera:view==="side"?"perfect_90_degree_side":"perfect_center_front",
+     format:"webp"
+   })
+ };
+})();
