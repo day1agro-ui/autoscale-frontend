@@ -1,17 +1,18 @@
-# AutoScale 4.1
+# AutoScale 4.2.1 — AI Visual Edition
 
-Готовая статическая версия для GitHub + Render.
+Статический MVP для сравнения реальных габаритов автомобилей в одном масштабе.
 
-## Структура
-- index.html — интерфейс
-- style.css — стили
-- app.js — логика Visual Engine
-- data/cars.json — база автомобилей
+## Новое в 4.2.1
+- добавлен AI Visual Pack;
+- Honda Vezel RU1 2015: side/front/top;
+- Volkswagen T-Cross 2021: side/front/top;
+- движок сначала ищет растровую визуализацию автомобиля;
+- при отсутствии изображения автоматически используется SVG fallback;
+- размеры и масштабирование по-прежнему берутся только из базы `cars.json`.
 
-## Загрузка на GitHub
-Загрузите содержимое этой папки в корень репозитория `autoscale-frontend`.
+## Запуск
+Откройте проект через GitHub Pages или любой статический хостинг.
 
-## Render
-Static Site:
-- Build Command: оставить пустым
-- Publish Directory: `.`
+
+## 4.1.2 Photo Restore Fix
+В архив включены реальные изображения автомобилей для side/front/top. Исправлен масштаб: side = длина × высота, front = ширина × высота, top = длина × ширина.
