@@ -1,0 +1,87 @@
+{
+  "version": "5.4",
+  "engine": "AutoScale Full AI Vehicle Library",
+  "description": "Bundled test AI vehicle images for side and front comparison views.",
+  "views": [
+    "side",
+    "front"
+  ],
+  "vehicles": {
+    "honda-vezel-ru1-2015": {
+      "displayName": "Honda Vezel RU1 2015",
+      "images": {
+        "side": [
+          {
+            "path": "assets/generated/side/honda-vezel-ru1-2015.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ],
+        "front": [
+          {
+            "path": "assets/generated/front/honda-vezel-ru1-2015.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ]
+      }
+    },
+    "volkswagen-t-cross-1gen-2021": {
+      "displayName": "Volkswagen T-Cross 1st Generation 2021",
+      "images": {
+        "side": [
+          {
+            "path": "assets/generated/side/volkswagen-t-cross-1gen-2021.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ],
+        "front": [
+          {
+            "path": "assets/generated/front/volkswagen-t-cross-1gen-2021.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ]
+      }
+    },
+    "volkswagen-t-roc-a1-2020": {
+      "displayName": "Volkswagen T-Roc A1 2020",
+      "images": {
+        "side": [
+          {
+            "path": "assets/generated/side/volkswagen-t-roc-a1-2020.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ],
+        "front": [
+          {
+            "path": "assets/generated/front/volkswagen-t-roc-a1-2020.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ]
+      }
+    },
+    "subaru-levorg-vm-2016": {
+      "displayName": "Subaru Levorg VM 2016",
+      "images": {
+        "side": [
+          {
+            "path": "assets/generated/side/subaru-levorg-vm-2016.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ],
+        "front": [
+          {
+            "path": "assets/generated/front/subaru-levorg-vm-2016.png",
+            "active": true,
+            "source": "ai-test-generated"
+          }
+        ]
+      }
+    }
+  }
+}

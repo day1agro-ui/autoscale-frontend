@@ -1,29 +1,29 @@
 {
-  "version": "5.2",
+  "version": "5.4",
   "standard": "autoscale-v1",
   "vehicles": {
     "honda-vezel-ru1-2015": {
-      "side": null,
-      "front": null,
-      "status": "pending",
+      "side": "assets/generated/side/honda-vezel-ru1-2015.png",
+      "front": "assets/generated/front/honda-vezel-ru1-2015.png",
+      "status": "ready",
       "fallback": true
     },
     "volkswagen-t-cross-1gen-2021": {
-      "side": null,
-      "front": null,
-      "status": "pending",
+      "side": "assets/generated/side/volkswagen-t-cross-1gen-2021.png",
+      "front": "assets/generated/front/volkswagen-t-cross-1gen-2021.png",
+      "status": "ready",
       "fallback": true
     },
     "volkswagen-t-roc-a1-2020": {
-      "side": null,
-      "front": null,
-      "status": "pending",
+      "side": "assets/generated/side/volkswagen-t-roc-a1-2020.png",
+      "front": "assets/generated/front/volkswagen-t-roc-a1-2020.png",
+      "status": "ready",
       "fallback": true
     },
     "subaru-levorg-vm-2016": {
-      "side": null,
-      "front": null,
-      "status": "pending",
+      "side": "assets/generated/side/subaru-levorg-vm-2016.png",
+      "front": "assets/generated/front/subaru-levorg-vm-2016.png",
+      "status": "ready",
       "fallback": true
     }
   }
