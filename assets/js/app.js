@@ -1,6 +1,6 @@
 const EMBEDDED_CARS = [
- {id:'honda-vezel-ru1-2015',brand:'Honda',model:'Vezel',generation:'RU1',year:2015,market:'Japan',body:'SUV',trim:'X',period:'2013–2021',dimensions:{length:4295,width:1770,height:1605,wheelbase:2610},visual:{silhouette:'honda/vezel-ru1',images:{side:'assets/vehicles/honda/vezel-ru1-2015/side.png',front:'assets/vehicles/honda/vezel-ru1-2015/front.png',top:'assets/vehicles/honda/vezel-ru1-2015/top.png'}}},
- {id:'volkswagen-t-cross-1gen-2021',brand:'Volkswagen',model:'T-Cross',generation:'1st Generation',year:2021,market:'Japan',body:'SUV',trim:'Base',period:'2019–2024',dimensions:{length:4110,width:1760,height:1584,wheelbase:2551},visual:{silhouette:'volkswagen/t-cross-1gen',images:{side:'assets/vehicles/volkswagen/t-cross-1gen-2021/side.png',front:'assets/vehicles/volkswagen/t-cross-1gen-2021/front.png',top:'assets/vehicles/volkswagen/t-cross-1gen-2021/top.png'}}},
+ {id:'honda-vezel-ru1-2015',brand:'Honda',model:'Vezel',generation:'RU1',year:2015,market:'Japan',body:'SUV',trim:'X',period:'2013–2021',dimensions:{length:4295,width:1770,height:1605,wheelbase:2610},visual:{silhouette:'honda/vezel-ru1',images:{side:'assets/vehicles/honda/vezel-ru1-2015/side.png',front:'assets/vehicles/honda/vezel-ru1-2015/front.png'}}},
+ {id:'volkswagen-t-cross-1gen-2021',brand:'Volkswagen',model:'T-Cross',generation:'1st Generation',year:2021,market:'Japan',body:'SUV',trim:'Base',period:'2019–2024',dimensions:{length:4110,width:1760,height:1584,wheelbase:2551},visual:{silhouette:'volkswagen/t-cross-1gen',images:{side:'assets/vehicles/volkswagen/t-cross-1gen-2021/side.png',front:'assets/vehicles/volkswagen/t-cross-1gen-2021/front.png'}}},
  {id:'volkswagen-t-roc-a1-2020',brand:'Volkswagen',model:'T-Roc',generation:'A1',year:2020,market:'Japan',body:'SUV',trim:'Base',period:'2017–2021',dimensions:{length:4234,width:1819,height:1573,wheelbase:2603},visual:{silhouette:'fallback'}},
  {id:'subaru-levorg-vm-2016',brand:'Subaru',model:'Levorg',generation:'VM',year:2016,market:'Japan',body:'Wagon',trim:'1.6 GT-S',period:'2014–2020',dimensions:{length:4690,width:1780,height:1490,wheelbase:2650},visual:{silhouette:'fallback'}}
 ];
@@ -51,7 +51,6 @@ function visualPath(c,view){
 const VIEW_CONFIG = {
   side:  { primary:'length', secondary:'height', primaryLabel:'Длина', secondaryLabel:'Высота', statusWord:'длиннее' },
   front: { primary:'width',  secondary:'height', primaryLabel:'Ширина', secondaryLabel:'Высота', statusWord:'шире' },
-  top:   { primary:'length', secondary:'width',  primaryLabel:'Длина', secondaryLabel:'Ширина', statusWord:'длиннее' }
 };
 
 function viewDimensions(view){
@@ -67,17 +66,18 @@ function renderVisual(){
   const cfg = VIEW_CONFIG[state.view] || VIEW_CONFIG.side;
   const primary = cfg.primary;
   const secondary = cfg.secondary;
-
   const maxPrimary=Math.max(a.dimensions[primary],b.dimensions[primary]);
   const maxSecondary=Math.max(a.dimensions[secondary],b.dimensions[secondary]);
 
   const stage=$('#stage');
-  stage.className='stage '+(state.layout==='overlay'?'overlay':'');
+  stage.className='stage '+state.layout;
   stage.dataset.view = state.view;
 
   const slot=c=>{
     const w=scalePct(c.dimensions[primary],maxPrimary,92);
     const h=scalePct(c.dimensions[secondary],maxSecondary,78);
+    const wheelbase = state.view==='side'
+      ? `<span class="wheelbase-line">База: ${c.dimensions.wheelbase} мм</span>` : '';
 
     return `<div class="car-slot">
       <div class="caption">${c.brand} ${c.model}</div>
@@ -90,16 +90,33 @@ function renderVisual(){
       <div class="dimension">
         <span>${cfg.primaryLabel}: ${c.dimensions[primary]} мм</span>
         <span>${cfg.secondaryLabel}: ${c.dimensions[secondary]} мм</span>
+        ${wheelbase}
       </div>
     </div>`;
   };
 
-  stage.innerHTML=slot(a)+slot(b);
+  if(state.layout==='queue'){
+    const queueSlot=c=>{
+      const w=(44*c.dimensions[primary]/maxPrimary).toFixed(2);
+      const h=(72*c.dimensions[secondary]/maxSecondary).toFixed(2);
+      const wheelbase = state.view==='side' ? `<small>База: ${c.dimensions.wheelbase} мм</small>` : '';
+      return `<div class="queue-car" style="width:${w}%">
+        <div class="caption">${c.brand} ${c.model}</div>
+        <div class="queue-image-box" style="height:${h}%">
+          <img class="car-image" src="${visualPath(c,state.view)}" alt="${c.brand} ${c.model}"
+               onerror="this.onerror=null;this.src='assets/silhouettes/fallback/${state.view}.svg'">
+        </div>
+        <div class="queue-dimension">${cfg.primaryLabel}: ${c.dimensions[primary]} мм · ${cfg.secondaryLabel}: ${c.dimensions[secondary]} мм ${wheelbase}</div>
+      </div>`;
+    };
+    stage.innerHTML=`<div class="queue-scene"><div class="queue-road">${queueSlot(a)}<div class="queue-gap" aria-hidden="true">→</div>${queueSlot(b)}</div></div>`;
+  }else{
+    stage.innerHTML=slot(a)+slot(b);
+  }
 
   const diffPrimary=a.dimensions[primary]-b.dimensions[primary];
   const absPrimary=Math.abs(diffPrimary);
   const winnerPrimary=diffPrimary>0 ? a : diffPrimary<0 ? b : null;
-
   const diffSecondary=a.dimensions[secondary]-b.dimensions[secondary];
   const absSecondary=Math.abs(diffSecondary);
 
@@ -108,15 +125,14 @@ function renderVisual(){
     const primaryText = diffPrimary===0
       ? `${cfg.primaryLabel.toLowerCase()} автомобилей одинаковая`
       : `${winnerPrimary.brand} ${winnerPrimary.model} ${cfg.statusWord} на ${absPrimary} мм (${(absPrimary/Math.min(a.dimensions[primary],b.dimensions[primary])*100).toFixed(1)}%)`;
-
     const secondaryText = diffSecondary===0
       ? `${cfg.secondaryLabel.toLowerCase()} одинаковая`
       : `разница по параметру «${cfg.secondaryLabel}» — ${absSecondary} мм`;
-
-    status.innerHTML = `✓ ${primaryText}.<br><small>${secondaryText}.</small>`;
+    const wheelbaseText = state.view==='side'
+      ? `<br><small>разница по колёсной базе — ${Math.abs(a.dimensions.wheelbase-b.dimensions.wheelbase)} мм.</small>` : '';
+    status.innerHTML = `✓ ${primaryText}.<br><small>${secondaryText}.</small>${wheelbaseText}`;
   }
 }
-
 function renderMetrics(){
   if(!state.a||!state.b) return;
   const keys=[['Длина','length'],['Ширина','width'],['Высота','height'],['Колёсная база','wheelbase']];
