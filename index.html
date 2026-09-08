@@ -1,1 +1,87 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoScale 4.0</title><link rel="stylesheet" href="assets/css/style.css"></head><body><header><div class="container"><div class="logo">Auto<b>Scale</b> <small>4.0</small></div><p>Сравнение реальных габаритов автомобилей в одном масштабе</p></div></header><main class="container"><section class="panel"><h1>AutoScale 4.0 — Visual Engine</h1><p>Выберите два автомобиля и сравните их в реальном масштабе.</p></section><section class="panel controls"><div><label>Первый автомобиль</label><select id="carA"></select></div><div><label>Второй автомобиль</label><select id="carB"></select></div></section><section class="panel"><h2>Визуальный режим</h2><div class="buttons" id="views"><button class="active" data-view="side">Сбоку</button><button data-view="front">Спереди</button><button data-view="top">Сверху</button></div><div class="buttons" id="modes"><button class="active" data-mode="stack">Друг над другом</button><button data-mode="overlay">Наложение</button></div><div id="scene"></div><div id="verdict"></div></section><section class="panel"><h2>Разница габаритов</h2><div id="specs"></div></section></main><script src="assets/js/database.js"></script><script src="assets/js/svg-engine.js"></script><script src="assets/js/app.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081625">
+<title>AutoScale 4.1</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+<header>
+  <div class="brand">Auto<span>Scale</span> <b>4.1</b></div>
+  <p>Сравнение реальных габаритов автомобилей в одном масштабе</p>
+</header>
+
+<section class="hero card">
+  <h1>AutoScale 4.1 — Visual Engine</h1>
+  <p>Выберите два автомобиля и сравните их реальные размеры в миллиметрах.</p>
+</section>
+
+<section class="card selectors">
+  <div class="car-select">
+    <label>Первый автомобиль</label>
+    <input id="searchA" placeholder="Поиск: марка, модель, поколение...">
+    <select id="carA"></select>
+    <div id="infoA" class="car-info"></div>
+  </div>
+  <div class="swap-wrap"><button id="swapBtn" title="Поменять местами">⇄</button></div>
+  <div class="car-select">
+    <label>Второй автомобиль</label>
+    <input id="searchB" placeholder="Поиск: марка, модель, поколение...">
+    <select id="carB"></select>
+    <div id="infoB" class="car-info"></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Визуальный режим</h2>
+  <div class="toolbar">
+    <div class="tabs" id="viewTabs">
+      <button class="active" data-view="side">Сбоку</button>
+      <button data-view="front">Спереди</button>
+      <button data-view="top">Сверху</button>
+    </div>
+    <div class="tabs" id="layoutTabs">
+      <button class="active" data-layout="stack">Друг над другом</button>
+      <button data-layout="overlay">Наложение</button>
+      <button data-layout="sideBySide">Рядом</button>
+    </div>
+  </div>
+  <div id="visual" class="visual stack"></div>
+  <div id="winner" class="winner"></div>
+</section>
+
+<section class="card">
+  <h2>Разница габаритов</h2>
+  <div id="diffGrid" class="diff-grid"></div>
+</section>
+
+<section class="card">
+  <h2>Наглядная разница</h2>
+  <div id="bars" class="bars"></div>
+</section>
+
+<section class="card table-card">
+  <h2>Полное сравнение характеристик</h2>
+  <div class="table-wrap"><table id="table"></table></div>
+</section>
+
+<section class="card">
+  <h2>О выбранных автомобилях</h2>
+  <div id="details" class="details"></div>
+</section>
+
+<section class="card share-card">
+  <h2>Поделиться сравнением</h2>
+  <button id="copyBtn">Скопировать ссылку</button>
+  <button id="nativeShareBtn">Поделиться</button>
+  <small id="shareStatus"></small>
+</section>
+
+<footer>AutoScale 4.1 · реальные размеры · локальная база данных</footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
