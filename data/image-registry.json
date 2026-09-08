@@ -3,12 +3,16 @@
     "side": null,
     "front": null,
     "status": "pending",
-    "prompt_profile": "orthographic"
+    "prompt_profile": "orthographic",
+    "standard": "autoscale-v1",
+    "fallback": true
   },
   "volkswagen-t-cross-2021": {
     "side": null,
     "front": null,
     "status": "pending",
-    "prompt_profile": "orthographic"
+    "prompt_profile": "orthographic",
+    "standard": "autoscale-v1",
+    "fallback": true
   }
 }
