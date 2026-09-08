@@ -1,0 +1,14 @@
+{
+  "honda-vezel-ru1-2015": {
+    "side": null,
+    "front": null,
+    "status": "pending",
+    "prompt_profile": "orthographic"
+  },
+  "volkswagen-t-cross-2021": {
+    "side": null,
+    "front": null,
+    "status": "pending",
+    "prompt_profile": "orthographic"
+  }
+}
