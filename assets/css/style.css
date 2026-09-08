@@ -24,7 +24,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 6px;
 .stage.overlay .car-slot:nth-child(1) .car-scale-box{opacity:.58}.stage.overlay .car-slot:nth-child(2) .car-scale-box{opacity:.68}
 
 
-/* AutoScale 4.2.3 — Dimension Axis Fix */
+/* AutoScale 4.3 — Side + Front + Queue Compare */
 .dimension{
   display:flex;
   flex-direction:column;
@@ -36,3 +36,18 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 6px;
 .dimension span:first-child{font-weight:800}
 .dimension span:last-child{font-size:11px;opacity:.82}
 .status small{display:block;margin-top:6px;font-weight:500;opacity:.9}
+
+
+/* AutoScale 4.3 — two views and queue comparison */
+.stage.queue{min-height:330px;display:flex;align-items:stretch;overflow:hidden}
+.queue-scene{width:100%;min-height:330px;padding:22px 16px 18px;display:flex;align-items:flex-end;overflow-x:auto}
+.queue-road{width:100%;min-width:560px;min-height:285px;display:flex;align-items:flex-end;gap:14px;position:relative;padding:0 8px 22px;border-bottom:5px solid #68727b}
+.queue-car{height:100%;min-width:185px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;padding-top:30px}
+.queue-car .caption{position:absolute;top:0;left:0;right:0;text-align:center;font-weight:800;color:#142638;font-size:14px}
+.queue-image-box{width:100%;display:flex;align-items:flex-end;justify-content:center}
+.queue-image-box .car-image{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;display:block;filter:drop-shadow(0 10px 7px #0006)}
+.queue-gap{align-self:center;margin-top:45px;color:#142638;font-size:24px;font-weight:800;opacity:.7}
+.queue-dimension{width:100%;margin-top:8px;background:#182634;color:#fff;border-radius:7px;padding:7px 8px;text-align:center;font-size:11px;line-height:1.35}
+.queue-dimension small{display:block;opacity:.8;margin-top:2px}
+.wheelbase-line{font-size:10px!important;opacity:.8}
+@media(max-width:420px){.stage.queue{min-height:300px}.queue-scene{min-height:300px;padding:18px 10px}.queue-road{min-width:500px;min-height:255px}.queue-car{min-width:165px}.queue-dimension{font-size:10px}.queue-gap{font-size:20px}}
