@@ -20,13 +20,30 @@ function visualPath(c,view){
  const base=c.visual?.silhouette==="fallback"?"assets/silhouettes/fallback":`assets/silhouettes/${c.visual?.silhouette||"fallback"}`;
  return `${base}/${view}.svg`;
 }
-function pct(n,max){return Math.max(20,Math.min(92,n/max*92))}
+function viewDimensions(view){
+ return view==="side" ? ["length","height"] : view==="front" ? ["width","height"] : ["length","width"];
+}
+function scalePct(value,max,limit=92){return Math.max(12,Math.min(limit,value/max*limit));}
+function visualPath(c,view){
+ if(c.visual?.images?.[view]) return c.visual.images[view];
+ const base=c.visual?.silhouette==="fallback"?"assets/silhouettes/fallback":`assets/silhouettes/${c.visual?.silhouette||"fallback"}`;
+ return `${base}/${view}.svg`;
+}
 function renderVisual(){
- const a=state.a,b=state.b, max=Math.max(a.dimensions.length,b.dimensions.length);
+ const a=state.a,b=state.b;
+ const [primary,secondary]=viewDimensions(state.view);
+ const maxPrimary=Math.max(a.dimensions[primary],b.dimensions[primary]);
+ const maxSecondary=Math.max(a.dimensions[secondary],b.dimensions[secondary]);
  const stage=$("#stage");stage.className="stage "+(state.layout==="overlay"?"overlay":"");
- const slot=(c,i)=>`<div class="car-slot"><div class="caption">${c.brand} ${c.model}</div><img class="car-image" style="width:${pct(c.dimensions.length,max)}%" src="${visualPath(c,state.view)}" onerror="this.src='assets/silhouettes/fallback/${state.view}.svg'"><div class="dimension">${c.dimensions.length} мм</div></div>`;
- stage.innerHTML=slot(a,0)+slot(b,1);
- $("#visualStatus").textContent=`✓ ${a.brand} ${a.model} длиннее на ${Math.abs(a.dimensions.length-b.dimensions.length)} мм.`;
+ const slot=(c)=>{
+   const w=scalePct(c.dimensions[primary],maxPrimary,92);
+   const h=scalePct(c.dimensions[secondary],maxSecondary,78);
+   const measure=state.view==="side"?c.dimensions.length:state.view==="front"?c.dimensions.width:c.dimensions.length;
+   return `<div class="car-slot"><div class="caption">${c.brand} ${c.model}</div><div class="car-scale-box" style="width:${w}%;height:${h}%"><img class="car-image" src="${visualPath(c,state.view)}" onerror="this.src='assets/silhouettes/fallback/${state.view}.svg'"></div><div class="dimension">${measure} мм</div></div>`;
+ };
+ stage.innerHTML=slot(a)+slot(b);
+ const diff=a.dimensions.length-b.dimensions.length, abs=Math.abs(diff);
+ $("#visualStatus").textContent=diff===0?"✓ Автомобили одинаковой длины.":`✓ ${diff>0?a.brand+" "+a.model:b.brand+" "+b.model} длиннее на ${abs} мм.`;
 }
 function renderMetrics(){
  const keys=[["Длина","length"],["Ширина","width"],["Высота","height"],["Колёсная база","wheelbase"]];
