@@ -1,13 +1,1 @@
-export async function loadCars(){
-  const response=await fetch('./data/cars.json',{cache:'no-store'});
-  if(!response.ok) throw new Error('Не удалось загрузить базу автомобилей');
-  return response.json();
-}
-export const unique=a=>[...new Set(a.filter(Boolean))];
-export function findCar(cars,id){return cars.find(c=>c.id===id)||null}
-export function searchableText(c){return [c.brand,c.model,c.generation,c.year,c.years,c.trim,c.body].join(' ').toLowerCase()}
-export function searchCars(cars,query){
-  const q=query.trim().toLowerCase(); if(!q) return [];
-  const words=q.split(/\s+/).filter(Boolean);
-  return cars.filter(c=>{const text=searchableText(c);return words.every(w=>text.includes(w))}).slice(0,8);
-}
+const CARS=[{id:'vezel',brand:'Honda',model:'Vezel',generation:'RU1',year:2015,length:4295,width:1770,height:1605,wheelbase:2610},{id:'tcross',brand:'Volkswagen',model:'T-Cross',generation:'1st Generation',year:2021,length:4110,width:1760,height:1584,wheelbase:2551},{id:'troc',brand:'Volkswagen',model:'T-Roc',generation:'1st Generation',year:2020,length:4234,width:1819,height:1573,wheelbase:2603},{id:'levorg',brand:'Subaru',model:'Levorg',generation:'VM',year:2016,length:4690,width:1780,height:1490,wheelbase:2650},{id:'yaris',brand:'Toyota',model:'Yaris Cross',generation:'XP210',year:2021,length:4180,width:1765,height:1590,wheelbase:2560}];
